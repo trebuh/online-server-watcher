@@ -1,0 +1,6 @@
+= Online Server Watcher
+:author: Trebuh
+:lang: en
+
+The Online Server Watcher monitors server availability at  https://online.net[Online.net] provider and sends a text message if the monitored servers are available.
+
