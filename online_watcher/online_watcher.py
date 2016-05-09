@@ -27,16 +27,11 @@ class OnlineWatcher:
         formatter = logging.Formatter('[%(asctime)s][%(levelname)s] %(message)s')
         
         file_handler = RotatingFileHandler('online_notifier.log', 'a', 1000000, 1)
-        file_handler.setLevel(logging.INFO)
         file_handler.setFormatter(formatter)
-        
-        stream_handler = logging.StreamHandler()
-        stream_handler.setLevel(logging.DEBUG)
         
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.DEBUG)
         self.logger.addHandler(file_handler)
-        self.logger.addHandler(stream_handler)
 
         self.watched_servers = ['Dedibox XC SATA 2016', 'Dedibox XC SSD 2015']
 
