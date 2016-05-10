@@ -8,8 +8,8 @@ except ImportError:
 
 log_params = {
     'line_format': '[%(asctime)s][%(levelname)s] %(message)s',
-    'file_path': '/var/log/online_notifier.log',
-    'file_size': '1000000',
+    'file_path': 'online_watcher.log',
+    'file_size': 1000000, # 1 MB
     'level': logging.DEBUG
 }
 
@@ -26,8 +26,8 @@ request_header = {
 sms_params = {
     'sms_url': 'https://smsapi.free-mobile.fr/sendmsg',
     'payload': {
-        'user': '123456'
-        'pass': 'ABCDEF'
+        'user': '123456',
+        'pass': 'ABCDEF',
         'msg': ''
     }
 }
