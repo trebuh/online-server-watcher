@@ -7,15 +7,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import bs4
 import requests
-
-
-
-URL = "https://console.online.net/fr/order/server"
-USER = "123456"
-KEY = "ABCDEFG"
-SMS_URL = "https://smsapi.free-mobile.fr/sendmsg"
-
-
+from config import log_params, watcher_params, request_header, sms_params
 
 class OnlineWatcher:
     """ Checks the availability of a given list of servers at Online.net provider
@@ -24,22 +16,18 @@ class OnlineWatcher:
 
     def __init__(self):
 
-        formatter = logging.Formatter('[%(asctime)s][%(levelname)s] %(message)s')
+        formatter = logging.Formatter(log_params['line_format'])
         
-        file_handler = RotatingFileHandler('online_notifier.log', 'a', 1000000, 1)
+        file_handler = RotatingFileHandler(log_params['file_path'], 'a', log_params['file_size'] , 1)
         file_handler.setFormatter(formatter)
         
         self.logger = logging.getLogger()
-        self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(log_params['level'])
         self.logger.addHandler(file_handler)
-
-        self.watched_servers = ['Dedibox XC SATA 2016', 'Dedibox XC SSD 2015']
-
-        self.payload = {'user': USER, 'pass': KEY}
         
 
     def table_row_generator(self):
-        parsing_request = requests.get(URL, headers={'User-agent': 'Mozilla/5.0'})
+        parsing_request = requests.get(watcher_params['parsed_url'], headers=request_header)
         soup = bs4.BeautifulSoup(parsing_request.text, 'html5lib')
         parsing_result = [[td.text.strip() for td in tr.find_all('td')] for tr in soup.find_all('tr')]
     
@@ -49,9 +37,9 @@ class OnlineWatcher:
     
     
     def send_alert(self):
-        sending_request = requests.post(SMS_URL, json=self.payload)
+        sending_request = requests.post(sms_params['sms_url'], json=sms_params['payload'])
         if sending_request.status_code == requests.codes.ok:
-            self.logger.info('Sent a notification: ' + self.payload['msg'])
+            self.logger.info('Sent a notification: ' + sms_params['payload']['msg'])
         elif sending_request.status_code == requests.codes.bad_request:  # return code 400
             self.logger.error('Some parameters are missing in the request')
             sys.exit(1)
@@ -69,16 +57,16 @@ class OnlineWatcher:
     
     def check_availability(self):
         for row in self.table_row_generator():
-            if row[0] in self.watched_servers and row[5] != 'sur commande' \
+            if row[0] in watcher_params['watched_servers'] and row[5] != 'sur commande' \
                     and row[5] != 'victime de son succès':
-                self.payload['msg'] = "Some new servers are available at " + URL + ": " + row[5] + " server(s) " + row[0] \
-                          + " remaining."
+                sms_params['payload']['msg'] = "Some new servers are available at " + watcher_params['parsed_url'] \
+                    + ": " + row[5] + " server(s) " + row[0] + " remaining."
                 self.send_alert()
 
     def start(self):
         while True:
             self.check_availability()
-            time.sleep(300)
+            time.sleep(watcher_params['sleep_time'])
 
 
 if __name__ == '__main__':
