@@ -28,7 +28,7 @@ setup(
     ],
     entry_points = {
         'console_scripts': [
-            'online-watcher=online_watcher.online_watcher:main',
+            'online-watcher=online_watcher.__main__:main',
         ],
     },
 )
