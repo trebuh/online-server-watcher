@@ -7,8 +7,12 @@ import logging
 from logging.handlers import RotatingFileHandler
 import smtplib
 from email.mime.text import MIMEText
-import bs4
-import requests
+try:
+    import bs4
+    import requests
+except ImportError as e:
+    print("Import error: %s" % str(e))
+    sys.exit(129)
 from .config import log_params, watcher_params, request_header, sms_params, email_params
 
 class OnlineWatcher:
@@ -26,7 +30,6 @@ class OnlineWatcher:
         self.logger = logging.getLogger()
         self.logger.setLevel(log_params['level'])
         self.logger.addHandler(file_handler)
-        
 
     def table_row_generator(self):
         parsing_request = requests.get(watcher_params['parsed_url'], headers=request_header)
