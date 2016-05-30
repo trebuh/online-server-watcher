@@ -3,16 +3,14 @@
  
 from setuptools import setup, find_packages
  
-import online_watcher
- 
 setup(
-    name=online_watcher.__title__,
-    version=online_watcher.__version__,
-    author=online_watcher.__author__,
-    author_email="trebuh@users.noreply.github.com",
-    description="Sends a text if servers are available at Online",
+    name='online_watcher',
+    version='0.0.1',
+    author='Trebuh',
+    author_email='trebuh@users.noreply.github.com',
+    description='Sends a text if servers are available at Online',
     long_description=open('README.adoc').read(),
-    url=online_watcher.__repo__,
+    url='https://github.com/trebuh/online-server-watcher',
     packages=find_packages(),
     install_requires=["requests", "html5lib", "bs4"],
     include_package_data=True,
