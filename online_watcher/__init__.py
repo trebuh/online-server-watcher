@@ -12,3 +12,5 @@ __author__ = 'Trebuh'
 __repo__ = 'https://github.com/trebuh/online-server-watcher'
 __license__ = 'MIT  License'
 
+from .core import OnlineWatcher
+
