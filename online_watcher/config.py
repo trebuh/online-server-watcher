@@ -13,7 +13,8 @@ log_params = {
 watcher_params = {
     'parsed_url': 'https://console.online.net/fr/order/server',
     'watched_servers': ['Dedibox XC SATA 2016', 'Dedibox XC SSD 2015'],
-    'sleep_time': 300
+    'sleep_time': 300,
+    'alert_via_text': False
 }
 
 request_header = {
@@ -28,3 +29,12 @@ sms_params = {
         'msg': ''
     }
 }
+email_params = {
+    'smtp_address': 'smtp.your_provider.com:25',
+    'use_auth': True,
+    'login': 'your_login',  # Used only if use_auth is True
+    'password': 'secret',   # Used only if use_auth is True
+    'from': 'your_email@your_provider.com',
+    'to': 'your_email@your_provider.com'
+}
+

@@ -5,9 +5,11 @@ import sys
 import time
 import logging
 from logging.handlers import RotatingFileHandler
+import smtplib
+from email.mime.text import MIMEText
 import bs4
 import requests
-from online_watcher.config import log_params, watcher_params, request_header, sms_params
+from .config import log_params, watcher_params, request_header, sms_params, email_params
 
 class OnlineWatcher:
     """ Checks the availability of a given list of servers at Online.net provider
@@ -34,9 +36,9 @@ class OnlineWatcher:
         for element in parsing_result:
             if element:
                 yield element
-    
-    
-    def send_alert(self):
+
+    def send_text(self, msg):
+        sms_params['payload']['msg'] = msg
         sending_request = requests.post(sms_params['sms_url'], json=sms_params['payload'])
         if sending_request.status_code == requests.codes.ok:
             self.logger.info('Sent a notification: ' + sms_params['payload']['msg'])
@@ -54,14 +56,44 @@ class OnlineWatcher:
             self.logger.error('Unknown error, return code: ' + sending_request.status_code)
             sys.exit(3)
     
+    def send_email(self, msg):
+        email = MIMEText(msg)
+        email['Subject'] = 'New servers available at Online.net'
+        email['From'] = email_params['from']
+        email['To'] = email_params['to']
+        smtp_server = None
+        try:
+            smtp_server = smtplib.SMTP(email_params['smtp_address'])
+            if email_params['use_auth']:
+                smtp_server.starttls()
+                smtp_server.login(email_params['login'], email_params['password'])
+            smtp_server.send_message( email)
+        except smtplib.socket.gaierror:
+            self.logger.error('Could not connect to ' + email_params['smtp_address'])
+            sys.exit(4)
+        except smtplib.SMTPAuthenticationError:
+            self.logger.error('Authentication error, wrong credentials for user' + email_params['login'])
+            sys.exit(5)
+        except smtplib.SMTPException as e:
+            self.logger.error('An error occured during the sending of the email' + str(e)) 
+            sys.exit(6)
+        finally:
+            if smtp_server:
+                smtp_server.quit()
+    
+    def send_alert(self, msg):
+        if watcher_params['alert_via_text']:
+            self.send_text(msg)
+        else:
+            self.send_email(msg)
     
     def check_availability(self):
         for row in self.table_row_generator():
             if row[0] in watcher_params['watched_servers'] and row[5] != 'sur commande' \
                     and row[5] != 'victime de son succès':
-                sms_params['payload']['msg'] = "Some new servers are available at " + watcher_params['parsed_url'] \
+                msg = "Some new servers are available at " + watcher_params['parsed_url'] \
                     + ": " + row[5] + " server(s) " + row[0] + " remaining."
-                self.send_alert()
+                self.send_alert(msg)
 
     def start(self):
         while True:
