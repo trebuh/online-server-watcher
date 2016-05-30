@@ -67,7 +67,7 @@ class OnlineWatcher:
         smtp_server = None
         try:
             smtp_server = smtplib.SMTP(email_params['smtp_address'])
-            if email_params['use_auth']:
+            if email_params['use_auth'] and smtp_server.has_extn('STARTTLS'):
                 smtp_server.starttls()
                 smtp_server.login(email_params['login'], email_params['password'])
             smtp_server.send_message( email)
@@ -75,10 +75,10 @@ class OnlineWatcher:
             self.logger.error('Could not connect to ' + email_params['smtp_address'])
             sys.exit(4)
         except smtplib.SMTPAuthenticationError:
-            self.logger.error('Authentication error, wrong credentials for user' + email_params['login'])
+            self.logger.error('Authentication error, wrong credentials for user ' + email_params['login'])
             sys.exit(5)
         except smtplib.SMTPException as e:
-            self.logger.error('An error occured during the sending of the email' + str(e)) 
+            self.logger.error('An error occured during the sending of the email ' + str(e)) 
             sys.exit(6)
         finally:
             if smtp_server:
