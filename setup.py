@@ -13,7 +13,7 @@ setup(
     author_email="trebuh@users.noreply.github.com",
     description="Sends a text if servers are available at Online",
     long_description=open('README.adoc').read(),
-    install_requires=["requests", "html5lib", "bs4"]
+    install_requires=["requests", "html5lib", "bs4"],
     include_package_data=True,
     url=online_watcher.__repo__,
     classifiers=[
