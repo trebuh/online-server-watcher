@@ -8,14 +8,14 @@ import online_watcher
 setup(
     name=online_watcher.__title__,
     version=online_watcher.__version__,
-    packages=find_packages(),
     author=online_watcher.__author__,
     author_email="trebuh@users.noreply.github.com",
     description="Sends a text if servers are available at Online",
     long_description=open('README.adoc').read(),
+    url=online_watcher.__repo__,
+    packages=find_packages(),
     install_requires=["requests", "html5lib", "bs4"],
     include_package_data=True,
-    url=online_watcher.__repo__,
     classifiers=[
         "Programming Language :: Python",
         "Development Status :: 4 - Beta",
