@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-try:
-    import logging
-except ImportError:
-    pass
+import logging
 
 log_params = {
     'line_format': '[%(asctime)s][%(levelname)s] %(message)s',
