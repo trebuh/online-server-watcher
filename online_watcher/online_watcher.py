@@ -68,8 +68,9 @@ class OnlineWatcher:
             self.check_availability()
             time.sleep(watcher_params['sleep_time'])
 
-
-if __name__ == '__main__':
+def main():
     online_watcher = OnlineWatcher()
     online_watcher.start()
 
+if __name__ == '__main__':
+    main()
