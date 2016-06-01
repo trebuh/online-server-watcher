@@ -2,5 +2,52 @@
 :author: Trebuh
 :lang: en
 
-The Online Server Watcher monitors server availability at  https://online.net[Online.net] provider and sends a text message if the monitored servers are available.
+The Online Server Watcher monitors server availability at https://online.net[Online.net] provider and sends an alert if the monitored servers are available.
 
+The alert can be sent using either:
+
+* E-mail
+* Text message API provided by the French mobile provider Free (https://mobile.free.fr)
+
+## Cloning:
+
+```
+$ git clone https://github.com/trebuh/online-server-watcher.git
+$ cd online-server-watcher
+```
+## Configuration:
+
+Copy the configuration file example and edit it to suit your needs
+
+```
+$ cp online_watcher/config-example.py online_watcher/config.py
+```
+* Set the list of servers you want to watch by modifing parameter *watcher_params.watched_servers*
+
+### E-mail alerts
+
+* Set *watcher_params.alert_via_text* to False
+* Edit *email_params.smtp_address* for your provider SMTP address
+* Add your email in *email_params.from* and *email_params.to*
+* If your SMTP server requires authentication, fill in *email_params.login* and *email_params.password*
+
+
+### Text alerts
+WARNING: This option will only work if you are a client of Free mobile (https://mobile.free.fr) and have activated the service.
+A documentation on how to activate it is available in French https://www.freenews.fr/freenews-edition-nationale-299/free-mobile-170/nouvelle-option-notifications-par-sms-chez-free-mobile-14817[here].
+
+* Set *watcher_params.alert_via_text* to True
+* Set your personnal user info in *sms_params.user*
+* Set your personnal password in *sms_params.pass*
+
+## Installation:
+
+```
+$ python setup.py install
+$ rehash  # to reload your path
+```
+## Run it:
+
+```
+$ online-watcher &
+```
