@@ -22,7 +22,7 @@ from .config import log_params, watcher_params, request_header, sms_params, \
 
 class OnlineWatcher:
     """ Checks the availability of a given list of servers at Online.net provider
-        Sends a text message when a server is available
+        Sends an alert when a server is available(using e-mail or text message)
     """
 
     def __init__(self):
