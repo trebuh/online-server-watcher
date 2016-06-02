@@ -11,10 +11,11 @@ config.py
 __pycache__/
 env/
 dist/
+build/
 eggs/
 *.egg-info/
 .installed.cfg
-*.egg
 
 ## IDE files
 .idea
+
