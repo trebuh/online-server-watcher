@@ -43,7 +43,7 @@ A documentation on how to activate it is available in French https://www.freenew
 ## Installation:
 
 ```
-$ python setup.py install
+$ python3 setup.py install
 $ rehash  # to reload your path
 ```
 ## Run it:
