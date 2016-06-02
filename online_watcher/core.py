@@ -12,6 +12,8 @@ try:
     import bs4
     import requests
 except ImportError as e:
+    requests = None
+    bs4 = None
     print("Import error: %s" % str(e))
     sys.exit(129)
 from .config import log_params, watcher_params, request_header, sms_params, \
@@ -35,7 +37,8 @@ class OnlineWatcher:
         self.logger.setLevel(log_params['level'])
         self.logger.addHandler(file_handler)
 
-    def table_row_generator(self):
+    @staticmethod
+    def table_row_generator():
         parsing_request = requests.get(watcher_params['parsed_url'],
                                        headers=request_header)
         soup = bs4.BeautifulSoup(parsing_request.text, 'html5lib')
@@ -90,9 +93,9 @@ class OnlineWatcher:
                 'Authentication error, wrong credentials for user ' +
                 email_params['login'])
             sys.exit(5)
-        except smtplib.SMTPException as e:
+        except smtplib.SMTPException as err:
             self.logger.error(
-                'An error occured during the sending of the email ' + str(e))
+                'An error occurred during the sending of the email ' + str(err))
             sys.exit(6)
         finally:
             if smtp_server:
