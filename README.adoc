@@ -22,7 +22,7 @@ Copy the configuration file example and edit it to suit your needs
 ```
 $ cp online_watcher/config-example.py online_watcher/config.py
 ```
-* Set the list of servers you want to watch by modifing parameter *watcher_params.watched_servers*
+* Set the list of servers you want to watch by modifying parameter *watcher_params.watched_servers*
 
 ### E-mail alerts
 
@@ -37,8 +37,8 @@ WARNING: This option will only work if you are a client of Free mobile (https://
 A documentation on how to activate it is available in French https://www.freenews.fr/freenews-edition-nationale-299/free-mobile-170/nouvelle-option-notifications-par-sms-chez-free-mobile-14817[here].
 
 * Set *watcher_params.alert_via_text* to True
-* Set your personnal user info in *sms_params.user*
-* Set your personnal password in *sms_params.pass*
+* Set your personal user info in *sms_params.user*
+* Set your personal password in *sms_params.pass*
 
 ## Installation:
 
@@ -48,6 +48,7 @@ $ rehash  # to reload your path
 ```
 ## Run it:
 
+* From your terminal
 ```
-$ online-watcher &
+$ online-watcher
 ```
