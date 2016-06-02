@@ -4,7 +4,6 @@
 import sys
 import time
 import logging
-from logging.handlers import RotatingFileHandler
 import smtplib
 from email.mime.text import MIMEText
 
@@ -29,13 +28,12 @@ class OnlineWatcher:
 
         formatter = logging.Formatter(log_params['line_format'])
 
-        file_handler = RotatingFileHandler(log_params['file_path'], 'a',
-                                           log_params['file_size'], 1)
-        file_handler.setFormatter(formatter)
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
 
         self.logger = logging.getLogger()
         self.logger.setLevel(log_params['level'])
-        self.logger.addHandler(file_handler)
+        self.logger.addHandler(console_handler)
 
     @staticmethod
     def table_row_generator():

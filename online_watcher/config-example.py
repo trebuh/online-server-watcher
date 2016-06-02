@@ -5,8 +5,6 @@ import logging
 
 log_params = {
     'line_format': '[%(asctime)s][%(levelname)s] %(message)s',
-    'file_path': 'online_watcher.log',
-    'file_size': 1000000,  # 1 MB
     'level': logging.DEBUG
 }
 
@@ -25,7 +23,7 @@ sms_params = {
     'sms_url': 'https://smsapi.free-mobile.fr/sendmsg',
     'payload': {
         'user': '123456',
-        'pass': 'ABCDEF',
+        'pass': 'FAKE',
         'msg': ''
     }
 }
@@ -37,4 +35,3 @@ email_params = {
     'from': 'your_email@your_provider.com',
     'to': 'your_email@your_provider.com'
 }
-
