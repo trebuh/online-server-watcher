@@ -6,7 +6,7 @@ import logging
 log_params = {
     'line_format': '[%(asctime)s][%(levelname)s] %(message)s',
     'file_path': 'online_watcher.log',
-    'file_size': 1000000, # 1 MB
+    'file_size': 1000000,  # 1 MB
     'level': logging.DEBUG
 }
 

@@ -3,9 +3,11 @@
 
 from online_watcher import OnlineWatcher
 
+
 def main():
     watcher = OnlineWatcher()
     watcher.start()
 
 if __name__ == '__main__':
     main()
+
