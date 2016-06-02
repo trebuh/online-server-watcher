@@ -110,12 +110,16 @@ class OnlineWatcher:
             if row[0] in watcher_params['watched_servers'] and row[
                 5] != 'sur commande' \
                     and row[5] != 'victime de son succès':
-                msg = "Some new servers are available at " + watcher_params[
-                    'parsed_url'] \
-                      + ": " + row[5] + " server(s) " + row[0] + " remaining."
+                msg = "Some new servers are available at " \
+                      + watcher_params['parsed_url'] + ": " + row[5] \
+                      + " server(s) " + row[0] + " remaining."
                 self.send_alert(msg)
 
     def start(self):
         while True:
-            self.check_availability()
-            time.sleep(watcher_params['sleep_time'])
+            try:
+                self.check_availability()
+                time.sleep(watcher_params['sleep_time'])
+            except KeyboardInterrupt:
+                self.logger.info('Keyboard Interrupt detected, exiting')
+                sys.exit(7)
