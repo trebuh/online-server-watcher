@@ -31,7 +31,7 @@ class OnlineWatcher:
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
 
-        self.logger = logging.getLogger()
+        self.logger = logging.getLogger("OnlineWatcherLogger")
         self.logger.setLevel(log_params['level'])
         self.logger.addHandler(console_handler)
 
